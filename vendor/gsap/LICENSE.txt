@@ -1,0 +1,4 @@
+GSAP 3.15.0 (gsap.min.js and plugins in this folder)
+Copyright GreenSock / Webflow. Free to use under the GSAP "Standard No Charge" license:
+https://gsap.com/standard-license
+Downloaded unmodified from https://github.com/greensock/GSAP (tag 3.15.0, /dist).

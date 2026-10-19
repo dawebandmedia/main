@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Shows the preloader only when JavaScript runs; a failsafe reveals the page if a script fails -->
+  <script>
+    document.documentElement.classList.add('js', 'is-loading');
+    window.__daFailsafe = setTimeout(function () {
+      document.documentElement.classList.remove('is-loading');
+      document.documentElement.classList.add('is-ready');
+    }, 9000);
+  </script>
+
+  <!-- ===== SEO — edit the title, description and the two URLs marked YOUR-GITHUB-USERNAME ===== -->
+  <title>DA Web & Media | Website Design, Video Editing & Digital Creative</title>
+  <meta name="description" content="DA Web & Media creates stunning websites, engaging videos and standout designs that bring your vision to life. Start your project today.">
+  <meta name="theme-color" content="#0A0C11">
+  <link rel="canonical" href="https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/">
+
+  <!-- Link previews (Facebook, Messenger, LinkedIn, X). og:image must be a full https:// URL. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DA Web & Media">
+  <meta property="og:title" content="DA Web & Media | Website Design, Video Editing & Digital Creative">
+  <meta property="og:description" content="Your brand deserves attention. Websites, videos and designs that bring your vision to life.">
+  <meta property="og:url" content="https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/">
+  <meta property="og:image" content="https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/assets/brand/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DA Web & Media logo: website design, video editing, digital creative">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <!-- Fonts are self-hosted (assets/fonts) so the preloader never waits on a third party -->
+  <link rel="preload" href="assets/fonts/unbounded-var.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-var.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="vendor/lenis/lenis.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "DA Web & Media",
+    "description": "Website design, video editing and digital creative services.",
+    "email": "dawebanddesign@gmail.com",
+    "url": "https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/",
+    "logo": "https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/assets/brand/icon-512.png",
+    "image": "https://YOUR-GITHUB-USERNAME.github.io/da-portfolio/assets/brand/og-image.jpg",
+    "priceRange": "$$",
+    "sameAs": ["https://www.facebook.com/dawebandmedia/"],
+    "knowsAbout": ["Website design", "Web development", "Video editing", "Video production", "Graphic design"]
+  }
+  </script>
+
+  <!-- Libraries live in /vendor (no CDN needed). three.js is loaded on demand. -->
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.js" } }</script>
+  <script src="vendor/gsap/gsap.min.js" defer></script>
+  <script src="vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/gsap/SplitText.min.js" defer></script>
+  <script src="vendor/gsap/ScrambleTextPlugin.min.js" defer></script>
+  <script src="vendor/gsap/CustomEase.min.js" defer></script>
+  <script src="vendor/gsap/Flip.min.js" defer></script>
+  <script src="vendor/gsap/DrawSVGPlugin.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Shared SVG symbol of the DA + orbit mark (used by the about section and fallbacks) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="sym-mark" viewBox="0 0 837.7 628.3">
+<defs>
+    <linearGradient id="sym-fade" gradientUnits="userSpaceOnUse" x1="0" y1="-0.6" x2="0" y2="621.8">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/>
+      <stop offset=".22" stop-color="currentColor"/>
+      <stop offset=".8" stop-color="currentColor"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g class="mk-da" fill="currentColor" fill-rule="evenodd">
+    <path class="mk-d" d="M4.3 182.3 L4.7 229.0 L215.7 229.3 L230.3 232.3 L241.3 236.7 L250.3 241.7 L260.3 249.7 L268.3 258.0 L274.7 266.7 L279.0 274.3 L283.3 284.7 L286.3 296.3 L287.7 306.7 L287.3 322.7 L285.3 333.7 L282.0 344.7 L275.7 357.0 L268.3 367.0 L260.3 375.3 L251.7 382.0 L243.3 387.0 L236.0 390.3 L226.3 393.3 L214.7 395.0 L53.0 395.0 L51.7 393.3 L51.7 256.0 L4.3 255.7 L4.3 442.3 L215.0 442.7 L233.3 440.3 L244.7 437.7 L258.7 432.7 L270.0 427.3 L282.7 419.7 L293.7 411.0 L302.3 402.7 L308.0 396.3 L316.0 385.3 L324.7 369.7 L329.3 358.3 L334.3 338.7 L336.3 322.0 L336.3 303.7 L333.0 279.7 L331.3 273.0 L325.3 256.7 L320.3 246.7 L309.7 230.3 L298.7 217.7 L292.3 211.7 L275.7 199.7 L258.0 191.0 L243.7 186.0 L231.3 183.3 L220.3 182.0 L5.3 181.7Z"/>
+    <path class="mk-a" d="M307.7 442.0 L308.7 442.7 L369.3 442.3 L492.0 274.7 L504.0 257.3 L514.3 244.3 L515.7 245.3 L523.0 255.7 L530.7 268.0 L649.3 442.3 L711.3 442.7 L711.7 441.3 L536.3 183.3 L534.3 181.7 L495.7 182.0 L411.0 300.0 L336.3 401.7Z"/>
+  </g>
+  <path class="mk-arc" fill="none" d="M561.0 -0.6 A316.0 316.0 0 0 1 537.6 621.8" stroke="url(#sym-fade)" stroke-width="7" stroke-linecap="round"/>
+  <circle class="mk-dot" cx="810.0" cy="313.0" r="23.0" fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <!-- ============ PRELOADER: the circle logo; its ring is the loading bar ============ -->
+  <div class="preloader" data-preloader aria-hidden="true">
+    <svg class="preloader__mark" viewBox="-232 -384 1280 1280" fill="none">
+      <circle class="pl-ring-bg" cx="408.5" cy="256.3" r="628"/>
+      <circle class="pl-ring" cx="408.5" cy="256.3" r="628" transform="rotate(-90 408.5 256.3)"/>
+      <defs>
+    <linearGradient id="pl-fade" gradientUnits="userSpaceOnUse" x1="0" y1="-0.6" x2="0" y2="621.8">
+      <stop offset="0" stop-color="currentColor" stop-opacity="0"/>
+      <stop offset=".22" stop-color="currentColor"/>
+      <stop offset=".8" stop-color="currentColor"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g class="mk-da" fill="currentColor" fill-rule="evenodd">
+    <path class="mk-d" d="M4.3 182.3 L4.7 229.0 L215.7 229.3 L230.3 232.3 L241.3 236.7 L250.3 241.7 L260.3 249.7 L268.3 258.0 L274.7 266.7 L279.0 274.3 L283.3 284.7 L286.3 296.3 L287.7 306.7 L287.3 322.7 L285.3 333.7 L282.0 344.7 L275.7 357.0 L268.3 367.0 L260.3 375.3 L251.7 382.0 L243.3 387.0 L236.0 390.3 L226.3 393.3 L214.7 395.0 L53.0 395.0 L51.7 393.3 L51.7 256.0 L4.3 255.7 L4.3 442.3 L215.0 442.7 L233.3 440.3 L244.7 437.7 L258.7 432.7 L270.0 427.3 L282.7 419.7 L293.7 411.0 L302.3 402.7 L308.0 396.3 L316.0 385.3 L324.7 369.7 L329.3 358.3 L334.3 338.7 L336.3 322.0 L336.3 303.7 L333.0 279.7 L331.3 273.0 L325.3 256.7 L320.3 246.7 L309.7 230.3 L298.7 217.7 L292.3 211.7 L275.7 199.7 L258.0 191.0 L243.7 186.0 L231.3 183.3 L220.3 182.0 L5.3 181.7Z"/>
+    <path class="mk-a" d="M307.7 442.0 L308.7 442.7 L369.3 442.3 L492.0 274.7 L504.0 257.3 L514.3 244.3 L515.7 245.3 L523.0 255.7 L530.7 268.0 L649.3 442.3 L711.3 442.7 L711.7 441.3 L536.3 183.3 L534.3 181.7 L495.7 182.0 L411.0 300.0 L336.3 401.7Z"/>
+  </g>
+  <path class="mk-arc" fill="none" d="M561.0 -0.6 A316.0 316.0 0 0 1 537.6 621.8" stroke="url(#pl-fade)" stroke-width="7" stroke-linecap="round"/>
+  <circle class="mk-dot" cx="810.0" cy="313.0" r="23.0" fill="currentColor"/>
+      <circle class="pl-sat" cx="408.5" cy="-371.7" r="14"/>
+    </svg>
+    <div class="preloader__meta">
+      <span class="preloader__count"><span data-preloader-count>000</span></span>
+      <span class="preloader__tag">Website design • Video editing • Digital creative</span>
+    </div>
+  </div>
+
+  <!-- Custom cursor (hidden on touch screens) -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__ring"><span class="cursor__label" data-cursor-label>View</span></div>
+    <div class="cursor__dot"></div>
+  </div>
+
+  <!-- Full-screen WebGL canvas for the project open/close wipe -->
+  <canvas class="wipe" data-wipe aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Page "timecode": the whole site plays like a reel -->
+  <div class="reel" aria-hidden="true">
+    <span class="reel__tc" data-reel-tc>00:00:00:00</span>
+    <span class="reel__bar"><i data-reel-bar></i></span>
+  </div>
+
+  <!-- ============ NAVIGATION ============ -->
+  <header class="nav" data-nav>
+    <a class="nav__logo" href="#top" aria-label="DA Web & Media, back to top" data-cursor="link">
+      <span class="nav__logo-full"><svg viewBox="0 0 1824.7 353.0" fill="currentColor" fill-rule="evenodd" role="img" aria-hidden="true"><path d="M1393.3 215.0 L1393.3 225.0 L1394.3 225.7 L1480.3 225.7 L1481.3 225.0 L1481.0 214.7 L1407.7 214.3Z"/>
+  <path d="M767.3 215.0 L767.3 225.0 L770.3 225.7 L854.7 225.7 L860.3 225.0 L860.3 215.0 L859.3 214.3 L768.3 214.3Z"/>
+  <path d="M1393.3 172.0 L1393.7 180.0 L1480.3 179.7 L1480.3 169.3 L1479.3 168.7 L1394.0 169.0Z"/>
+  <path d="M768.0 170.0 L768.0 179.3 L768.7 180.0 L858.3 180.0 L859.0 179.3 L859.0 169.7 L858.3 169.0 L789.7 168.7 L768.7 169.0Z"/>
+  <path d="M1701.3 224.3 L1701.7 225.3 L1714.7 225.3 L1715.7 224.3 L1760.7 147.3 L1762.0 146.3 L1807.0 225.0 L1820.7 225.0 L1765.0 125.3 L1758.7 125.3 L1754.3 133.3 L1742.0 153.3 L1708.0 213.7Z"/>
+  <path d="M1657.3 125.3 L1656.7 126.3 L1656.7 224.7 L1657.3 225.3 L1669.0 225.0 L1669.3 126.7 L1668.7 125.3Z"/>
+  <path d="M1243.0 125.7 L1243.3 225.3 L1255.7 225.3 L1256.0 224.7 L1256.0 152.0 L1256.7 151.0 L1258.7 152.7 L1296.7 212.7 L1303.0 213.0 L1344.0 150.3 L1345.3 150.7 L1345.3 225.0 L1358.0 225.0 L1358.3 126.7 L1357.7 125.3 L1344.7 125.3 L1300.7 193.3 L1299.0 192.7 L1283.3 167.3 L1256.7 126.7 L1255.3 125.3Z"/>
+  <path d="M579.3 126.0 L609.3 208.3 L614.7 225.0 L626.3 225.3 L627.0 224.7 L636.0 198.3 L654.0 151.0 L655.7 152.3 L680.7 224.7 L681.3 225.3 L693.0 225.0 L729.3 127.0 L729.0 125.7 L717.7 125.3 L715.3 126.3 L688.0 200.3 L687.0 200.7 L678.3 178.3 L659.7 125.7 L649.3 125.3 L648.3 126.3 L627.3 186.3 L621.3 201.0 L620.3 200.7 L617.0 192.7 L593.3 126.3 L592.3 125.3 L580.0 125.3Z"/>
+  <path d="M1617.3 143.7 L1609.7 136.3 L1604.0 132.3 L1596.7 129.0 L1587.3 126.3 L1575.7 125.0 L1517.0 125.3 L1516.3 130.0 L1516.3 224.7 L1517.0 225.3 L1575.3 225.7 L1583.7 225.0 L1591.3 223.3 L1600.3 220.0 L1611.7 212.7 L1620.0 203.3 L1624.3 195.3 L1626.7 188.3 L1628.0 179.7 L1628.0 171.7 L1626.7 162.0 L1621.3 149.7ZM1529.7 137.7 L1530.3 137.0 L1579.7 137.0 L1591.7 140.0 L1596.0 142.0 L1600.7 145.3 L1606.7 151.3 L1610.7 157.3 L1613.0 162.7 L1614.7 170.0 L1614.7 178.7 L1613.3 186.0 L1611.0 192.3 L1605.7 200.7 L1600.7 205.3 L1594.3 209.3 L1584.3 212.7 L1575.3 213.7 L1530.7 213.7 L1529.3 212.0Z"/>
+  <path d="M1393.3 125.7 L1393.3 135.7 L1394.0 136.0 L1480.7 136.0 L1481.3 135.3 L1481.0 125.3 L1394.0 125.0Z"/>
+  <path d="M901.3 125.3 L901.3 225.3 L976.0 225.3 L981.3 224.3 L989.7 221.3 L993.3 219.3 L997.3 216.0 L1001.7 210.0 L1004.0 204.0 L1004.7 200.3 L1004.7 192.3 L1003.3 187.3 L1000.3 181.7 L995.3 176.3 L989.7 172.3 L996.3 165.7 L999.0 160.3 L1000.3 154.3 L1000.3 148.3 L999.0 142.7 L995.7 136.7 L991.7 132.3 L984.3 128.0 L973.3 125.3ZM914.7 180.7 L915.7 179.7 L971.3 179.3 L978.0 180.3 L985.0 183.3 L988.7 187.0 L991.3 193.7 L991.0 201.0 L989.0 205.7 L984.7 210.0 L981.3 211.7 L973.7 213.7 L915.3 213.7 L914.7 213.0ZM914.7 137.7 L915.7 136.7 L972.7 136.7 L975.7 137.3 L981.7 140.0 L985.0 143.7 L987.0 149.3 L987.0 155.0 L985.0 160.3 L981.3 164.0 L976.7 166.3 L971.7 167.7 L915.3 167.7 L914.7 166.7Z"/>
+  <path d="M767.3 125.7 L767.3 135.3 L768.0 136.0 L859.7 136.0 L860.3 135.3 L860.0 125.3 L771.3 125.0Z"/>
+  <path d="M1095.0 130.3 L1092.0 133.7 L1089.0 139.3 L1088.0 144.0 L1088.3 149.0 L1090.0 154.0 L1092.0 157.3 L1104.3 167.7 L1093.7 171.3 L1085.7 175.7 L1079.0 182.0 L1075.0 189.0 L1074.0 192.7 L1074.0 200.7 L1075.0 205.3 L1077.3 210.3 L1082.0 216.0 L1089.7 222.0 L1098.0 225.3 L1107.0 226.7 L1116.3 226.0 L1123.7 223.3 L1129.3 219.7 L1146.0 202.7 L1146.7 202.7 L1169.3 225.0 L1179.3 225.3 L1179.7 224.7 L1152.0 197.3 L1152.0 196.3 L1170.7 176.3 L1172.3 174.3 L1172.3 173.3 L1164.3 173.3 L1153.3 185.7 L1147.0 192.0 L1146.0 192.0 L1131.0 178.0 L1122.0 171.0 L1122.7 169.7 L1127.7 168.0 L1134.0 164.7 L1139.7 159.3 L1143.7 153.0 L1145.0 147.0 L1144.7 141.3 L1143.3 137.0 L1140.7 132.7 L1137.0 129.0 L1133.0 126.3 L1128.0 124.3 L1122.0 123.0 L1109.0 123.3 L1103.7 125.0 L1099.0 127.3ZM1112.7 172.3 L1127.3 184.0 L1141.3 197.7 L1126.3 213.0 L1121.0 217.0 L1112.7 220.0 L1107.0 220.3 L1102.0 219.7 L1093.0 216.0 L1089.0 213.0 L1085.0 208.7 L1082.7 204.7 L1081.7 201.3 L1081.7 194.3 L1084.7 187.0 L1093.0 179.0 L1098.3 176.0 L1103.7 174.0ZM1119.7 129.0 L1127.3 131.0 L1133.7 135.7 L1137.0 141.3 L1137.7 145.0 L1137.3 149.0 L1135.0 154.3 L1129.0 160.0 L1120.3 164.3 L1114.0 166.0 L1103.7 159.3 L1098.7 154.7 L1095.7 149.0 L1095.3 143.7 L1097.7 138.0 L1103.7 132.3 L1110.3 129.7Z"/>
+  <path d="M200.7 263.7 L201.3 264.7 L239.0 264.3 L269.3 222.7 L331.7 134.3 L333.0 134.0 L351.0 159.0 L373.3 192.0 L378.7 198.7 L423.7 264.3 L462.7 264.7 L463.3 264.0 L445.7 237.7 L421.7 204.3 L398.7 170.3 L389.7 158.7 L382.7 147.7 L345.7 94.7 L320.3 94.7 L319.0 95.7Z"/>
+  <path d="M4.0 95.3 L4.0 123.3 L4.7 124.0 L138.3 124.0 L145.3 125.0 L152.7 127.0 L165.3 133.7 L173.0 140.0 L178.0 145.7 L182.0 151.7 L186.0 160.7 L188.0 168.0 L189.0 175.7 L189.0 185.0 L188.0 191.7 L185.7 200.0 L181.0 209.3 L176.3 215.7 L169.3 222.3 L161.7 227.3 L153.7 231.3 L145.7 233.7 L139.3 234.7 L36.0 234.7 L35.3 234.0 L35.3 142.7 L34.0 142.0 L4.7 142.0 L4.0 142.7 L4.3 264.3 L137.7 264.7 L149.7 263.3 L167.3 258.3 L181.3 251.3 L194.0 242.0 L200.7 235.0 L207.7 226.0 L215.7 210.0 L219.7 193.7 L220.7 176.7 L218.7 161.0 L214.7 147.7 L210.3 138.3 L206.7 132.3 L200.7 124.3 L191.0 114.7 L183.7 109.3 L174.7 104.0 L163.3 99.3 L153.7 96.7 L140.0 94.7 L4.7 94.7Z"/>
+  <path d="M423.0 4.0 L422.3 4.3 L438.0 15.7 L452.3 28.0 L464.7 40.0 L478.3 56.0 L490.7 74.0 L497.7 86.3 L502.7 97.0 L510.0 117.0 L515.7 140.3 L518.0 158.0 L518.0 164.7 L510.7 168.0 L507.3 171.3 L505.0 177.3 L505.0 183.3 L507.3 189.0 L512.3 193.3 L516.3 194.7 L517.3 195.7 L517.3 198.7 L514.7 215.7 L510.0 233.7 L504.0 250.3 L496.7 266.3 L482.7 289.0 L474.3 300.0 L462.7 313.7 L445.7 330.0 L421.3 349.0 L427.0 346.7 L440.7 337.7 L458.7 322.7 L475.7 304.7 L490.3 285.0 L504.7 258.7 L512.3 239.3 L518.7 216.7 L521.3 196.3 L522.3 195.0 L525.3 194.7 L530.0 192.0 L533.3 188.3 L535.3 183.3 L534.7 175.7 L532.3 171.0 L528.7 167.7 L522.7 165.3 L521.7 164.0 L521.3 152.7 L519.3 138.3 L513.3 114.7 L505.3 93.7 L493.7 71.3 L477.3 48.7 L457.7 28.0 L446.3 18.7 L428.3 6.7Z"/></svg></span>
+      <span class="nav__logo-mark"><svg viewBox="0 0 997.7 362.0" fill="currentColor" fill-rule="evenodd" aria-hidden="true"><path d="M5.0 4.7 L4.7 67.0 L5.3 68.0 L295.0 68.0 L305.7 69.0 L315.7 71.0 L325.7 74.0 L335.3 78.0 L344.7 83.0 L358.7 93.3 L371.7 107.0 L381.0 120.7 L388.7 137.3 L393.7 155.3 L395.7 172.3 L395.7 183.0 L394.3 198.3 L391.0 213.0 L385.7 228.3 L375.0 247.3 L363.7 261.0 L353.3 270.7 L340.0 280.0 L328.3 286.3 L320.7 289.3 L306.7 293.3 L288.0 296.0 L73.3 296.0 L72.3 294.7 L72.3 104.0 L71.7 103.3 L5.0 103.3 L4.0 104.7 L4.0 357.0 L4.7 357.7 L280.7 358.0 L303.3 356.3 L327.3 352.0 L349.7 345.3 L366.7 338.3 L381.7 330.7 L398.3 319.7 L412.3 308.3 L425.7 295.0 L437.3 280.3 L449.0 262.3 L457.7 244.3 L463.7 227.7 L467.3 212.7 L469.7 198.3 L471.0 177.3 L470.3 161.0 L468.7 145.7 L464.7 127.3 L459.3 111.7 L452.3 96.3 L446.3 85.7 L435.7 70.3 L424.3 57.3 L414.0 47.7 L398.7 35.7 L389.3 30.0 L368.7 19.7 L348.7 12.7 L328.7 8.0 L301.0 4.7Z"/>
+  <path d="M435.0 357.0 L435.3 357.7 L461.0 358.0 L521.7 357.3 L677.7 145.0 L692.0 126.3 L719.3 88.3 L720.7 87.7 L907.7 357.7 L993.7 357.3 L847.3 141.0 L797.3 69.0 L756.0 8.3 L752.0 4.0 L694.0 4.0 L692.0 5.3Z"/></svg></span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="#work" data-scramble-hover data-cursor="link">Work</a>
+      <a href="#services" data-scramble-hover data-cursor="link">Services</a>
+      <a href="#process" data-scramble-hover data-cursor="link">Process</a>
+      <a href="#contact" data-scramble-hover data-cursor="link">Contact</a>
+    </nav>
+    <a class="btn btn--pill nav__cta" href="#contact" data-magnetic data-cursor="link"><span data-magnetic-inner>Start a project</span></a>
+    <button class="nav__menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
+      <span class="nav__menu-label">Menu</span><span class="nav__menu-icon" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="menu" id="menu" data-menu hidden>
+    <nav aria-label="Mobile">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="menu__foot"><a href="mailto:dawebanddesign@gmail.com" data-site-email>dawebanddesign@gmail.com</a></p>
+  </div>
+
+  <main id="main">
+
+    <!-- ============ 1. HERO ============ -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__sticky">
+        <canvas class="hero__gl" data-hero-canvas aria-hidden="true"></canvas>
+        <div class="hero__fallback" aria-hidden="true">
+          <svg viewBox="0 0 837.7 628.3"><use href="#sym-mark"/></svg>
+        </div>
+
+        <div class="hero__content">
+          <h1 class="hero__title" id="hero-title" data-hero-title>
+            <span class="hero__line">Your brand</span>
+            <span class="hero__line">deserves</span>
+            <span class="hero__line">attention.</span>
+          </h1>
+          <div class="hero__bottom">
+            <p class="hero__lede" data-reveal-lines>We create stunning websites, engaging videos and standout designs that bring your vision to life.</p>
+            <div class="hero__actions">
+              <a class="btn btn--solid" href="#contact" data-magnetic data-cursor="link"><span data-magnetic-inner>Start your project</span></a>
+              <a class="btn btn--line" href="#work" data-magnetic data-cursor="link"><span data-magnetic-inner>See the work</span></a>
+            </div>
+          </div>
+        </div>
+
+        <ul class="hero__crafts" aria-label="What we do">
+          <li data-scramble-in>Website design</li>
+          <li data-scramble-in>Video editing</li>
+          <li data-scramble-in>Digital creative</li>
+        </ul>
+
+        <div class="hero__cue" aria-hidden="true">
+          <span class="hero__cue-line"><i></i></span>
+          <span>Scroll</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. ABOUT (paper sheet) ============ -->
+    <!-- EDIT: this copy is a starting draft written from your Facebook intro. Make it yours. -->
+    <section class="about sheet" id="about" aria-labelledby="about-title">
+      <div class="about__mark" aria-hidden="true" data-about-mark>
+        <svg viewBox="0 0 837.7 628.3"><use href="#sym-mark"/></svg>
+      </div>
+      <div class="about__inner">
+        <h2 class="about__statement" id="about-title" data-scrub-words>
+          DA Web &amp; Media builds websites, edits video and designs brand visuals under one roof, so your brand looks and sounds the same everywhere people find it.
+        </h2>
+        <div class="about__body">
+          <p data-reveal-lines>Most businesses juggle a web developer, a video editor and a designer, and end up looking like three different companies. We bring the three crafts together: one point of contact, one consistent look, and work made to get noticed.</p>
+          <a class="link-arrow" href="#work" data-cursor="link"><span>See what we've made</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. SERVICES — three "monitors", like your cover ============ -->
+    <!-- EDIT: adjust the lists to exactly what you offer. -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="section-head">
+        <h2 class="section-title" id="services-title" data-reveal-lines>What we make</h2>
+        <p class="section-intro" data-reveal-lines>Three crafts, one look. Pick one, or combine them for a launch that feels the same on every screen.</p>
+      </div>
+
+      <div class="services__grid">
+        <article class="service" data-service data-cursor="link">
+          <div class="service__screen service__screen--web" aria-hidden="true">
+            <div class="mini-browser"><i></i><i></i><i></i></div>
+            <div class="mini-site"><b class="ms-nav"></b><b class="ms-hero"></b><b class="ms-copy"></b><b class="ms-cta"></b><b class="ms-card"></b><b class="ms-card"></b><b class="ms-card"></b></div>
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Websites</h3>
+            <p>Fast, responsive sites that make a strong first impression and turn visitors into enquiries.</p>
+            <ul class="service__list">
+              <li>Business websites</li><li>Landing pages</li><li>Portfolio sites</li><li>Redesigns</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service" data-service data-cursor="link">
+          <div class="service__screen service__screen--video" aria-hidden="true">
+            <div class="mini-frame"><span class="mini-play"></span></div>
+            <div class="mini-timeline">
+              <div class="mt-track"><b style="--w:22"></b><b style="--w:14"></b><b style="--w:30"></b><b style="--w:18"></b></div>
+              <div class="mt-wave"></div>
+              <span class="mt-head"></span>
+            </div>
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Video</h3>
+            <p>Edits that hold attention from the first frame to the call to action, cut for every platform.</p>
+            <ul class="service__list">
+              <li>Promotional videos</li><li>Social media reels</li><li>Product &amp; property showcases</li><li>Color &amp; sound polish</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service" data-service data-cursor="link">
+          <div class="service__screen service__screen--design" aria-hidden="true">
+            <div class="mini-artboard">
+              <span class="ma-circle"></span><span class="ma-square"></span><span class="ma-chevron"></span>
+              <span class="ma-handle ma-h1"></span><span class="ma-handle ma-h2"></span>
+            </div>
+            <div class="mini-swatches"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Design</h3>
+            <p>Brand visuals that stay consistent wherever they appear, from your logo to your next post.</p>
+            <ul class="service__list">
+              <li>Logos &amp; brand kits</li><li>Social media graphics</li><li>Posters &amp; print</li><li>Thumbnails &amp; covers</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 4. WORK — built from data/projects.js ============ -->
+    <section class="work" id="work" aria-labelledby="work-title">
+      <div class="work__pin" data-work-pin>
+        <div class="work__head">
+          <div>
+            <h2 class="section-title" id="work-title" data-reveal-lines>Selected work</h2>
+            <p class="section-intro" data-reveal-lines>Websites, videos and graphics. Filter by craft, then scroll through the reel.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter projects" data-filters></div>
+        </div>
+
+        <div class="work__viewport" data-work-viewport>
+          <canvas class="work__gl" data-work-canvas aria-hidden="true"></canvas>
+          <div class="work__ruler" data-work-ruler aria-hidden="true"></div>
+          <ul class="work__track" data-work-track></ul>
+        </div>
+
+        <div class="work__progress" aria-hidden="true">
+          <span data-work-index>01</span>
+          <span class="work__progress-bar"><i data-work-bar></i></span>
+          <span data-work-total>06</span>
+        </div>
+      </div>
+      <noscript><p class="section-intro">Turn on JavaScript to browse the portfolio, or email <a href="mailto:dawebanddesign@gmail.com">dawebanddesign@gmail.com</a>.</p></noscript>
+    </section>
+
+    <!-- ============ 5. PROCESS — an edit timeline with a playhead ============ -->
+    <!-- EDIT: describe how you actually work. Keep four steps for the best layout. -->
+    <section class="process sheet" id="process" aria-labelledby="process-title">
+      <div class="process__pin" data-process-pin>
+        <div class="process__head">
+          <h2 class="section-title" id="process-title" data-reveal-lines>How a project runs</h2>
+          <p class="section-intro" data-reveal-lines>Four steps from first message to launch. You see progress at every stage.</p>
+        </div>
+
+        <ol class="process__steps" data-process-steps>
+          <li class="step">
+            <span class="step__num">01</span>
+            <h3 class="step__title">Discover</h3>
+            <p>A short call about your goals, audience and deadline. We agree on scope and price before any work starts.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">02</span>
+            <h3 class="step__title">Design</h3>
+            <p>Moodboards, wireframes or a storyboard first, so you can steer the direction early, while changes are easy.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">03</span>
+            <h3 class="step__title">Build &amp; edit</h3>
+            <p>We build the site or cut the video and share previews as we go, with review rounds built in.</p>
+          </li>
+          <li class="step">
+            <span class="step__num">04</span>
+            <h3 class="step__title">Launch</h3>
+            <p>Your site goes live or your files arrive in every format you need, with a walkthrough of what you got.</p>
+          </li>
+        </ol>
+
+        <div class="timeline" aria-hidden="true" data-timeline>
+          <div class="timeline__ruler" data-timeline-ruler></div>
+          <div class="timeline__track timeline__track--v">
+            <span class="timeline__label">V1</span>
+            <div class="timeline__clips">
+              <b data-clip>Discover</b><b data-clip>Design</b><b data-clip>Build &amp; edit</b><b data-clip>Launch</b>
+            </div>
+          </div>
+          <div class="timeline__track timeline__track--a">
+            <span class="timeline__label">A1</span>
+            <div class="timeline__wave" data-timeline-wave></div>
+          </div>
+          <div class="timeline__head" data-timeline-head><span class="timeline__tc" data-timeline-tc>00:00:00</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. TESTIMONIALS — built from data/testimonials.js ============ -->
+    <section class="testimonials" id="testimonials" aria-labelledby="testimonials-title" data-testimonials>
+      <h2 class="section-title" id="testimonials-title" data-reveal-lines>Client words</h2>
+      <div class="testimonials__stage" data-testimonials-stage></div>
+    </section>
+
+    <!-- ============ 7. CONTACT ============ -->
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact__glow" aria-hidden="true"></div>
+      <div class="contact__grid">
+        <div class="contact__intro">
+          <h2 class="contact__title" id="contact-title" data-reveal-chars>Ready to make an impact?</h2>
+          <p class="section-intro" data-reveal-lines>Tell us what you need and we'll reply by email. Prefer Messenger? Message the Facebook page anytime.</p>
+          <div class="contact__direct">
+            <a class="contact__email" href="mailto:dawebanddesign@gmail.com" data-site-email data-cursor="link">dawebanddesign@gmail.com</a>
+            <button class="btn btn--ghost btn--small" type="button" data-copy-email data-cursor="link">Copy email</button>
+          </div>
+          <ul class="socials" data-socials>
+            <li><a href="https://www.facebook.com/dawebandmedia/" target="_blank" rel="noopener" data-cursor="link">Facebook</a></li>
+          </ul>
+        </div>
+
+        <form class="form" data-contact-form novalidate>
+          <div class="field">
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder=" " required>
+            <label for="f-name">Your name</label>
+            <span class="field__line"></span>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder=" " required>
+            <label for="f-email">Email</label>
+            <span class="field__line"></span>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <fieldset class="chips">
+            <legend>What do you need?</legend>
+            <label class="chip"><input type="checkbox" name="needs" value="Website"><span>Website</span></label>
+            <label class="chip"><input type="checkbox" name="needs" value="Video"><span>Video</span></label>
+            <label class="chip"><input type="checkbox" name="needs" value="Design"><span>Design</span></label>
+            <label class="chip"><input type="checkbox" name="needs" value="Not sure yet"><span>Not sure yet</span></label>
+          </fieldset>
+          <div class="field field--area">
+            <textarea id="f-message" name="message" rows="4" placeholder=" " required></textarea>
+            <label for="f-message">Tell us about the project</label>
+            <span class="field__line"></span>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <div class="form__foot">
+            <button class="btn btn--solid btn--send" type="submit" data-magnetic data-cursor="link"><span data-magnetic-inner data-send-label>Send message</span></button>
+            <p class="form__status" data-form-status aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 8. FOOTER — the mark assembles from particles ============ -->
+  <footer class="footer" aria-label="Footer">
+    <div class="footer__stage">
+      <canvas class="footer__canvas" data-footer-canvas aria-hidden="true"></canvas>
+      <p class="footer__line" data-reveal-lines>Your brand deserves attention.</p>
+    </div>
+    <div class="footer__bar">
+      <p>© <span data-year>2026</span> DA Web &amp; Media</p>
+      <ul class="footer__links" data-footer-links>
+        <li><a href="mailto:dawebanddesign@gmail.com" data-site-email data-cursor="link">Email</a></li>
+        <li><a href="https://www.facebook.com/dawebandmedia/" target="_blank" rel="noopener" data-cursor="link">Facebook</a></li>
+      </ul>
+      <button class="footer__top" type="button" data-to-top data-magnetic data-cursor="link"><span data-magnetic-inner>Back to top</span></button>
+    </div>
+  </footer>
+
+  <!-- ============ PROJECT DETAIL VIEW (filled from data/projects.js) ============ -->
+  <div class="pv" id="project-view" role="dialog" aria-modal="true" aria-labelledby="pv-title" hidden data-pv data-lenis-prevent>
+    <div class="pv__bar">
+      <button class="btn btn--pill pv__close" type="button" data-pv-close data-magnetic data-cursor="link"><span data-magnetic-inner>Close</span></button>
+      <span class="pv__count" data-pv-count></span>
+    </div>
+    <article class="pv__content" data-pv-content></article>
+  </div>
+</body>
+</html>
