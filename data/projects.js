@@ -32,6 +32,32 @@
 
 export default [
   {
+    slug: 'audrea-cove-resort',
+    title: 'Audrea Cove Resort',
+    category: 'Web',
+    year: '2026',
+    client: 'Concept project',
+    role: 'Concept, design & full-stack build',
+    thumbnail: 'assets/projects/audrea-cove-resort/cover.jpg',
+    images: [
+      'assets/projects/audrea-cove-resort/01.jpg',
+      'assets/projects/audrea-cove-resort/02.jpg',
+      'assets/projects/audrea-cove-resort/03.jpg',
+      'assets/projects/audrea-cove-resort/04.jpg',
+      'assets/projects/audrea-cove-resort/05.jpg',
+      'assets/projects/audrea-cove-resort/06.jpg',
+      'assets/projects/audrea-cove-resort/07.jpg',
+      'assets/projects/audrea-cove-resort/08.jpg',
+    ],
+    video: '',
+    description: [
+      'A complete website for a fictional beach resort in Laiya, San Juan, Batangas, built to show what a small Philippine resort can have online: a calm, editorial look in deep teal and cream, a short weekend-escape story from Metro Manila, and three stays to choose from: Garden Terrace Room, Sea View Suite and Cove Pool Villa.',
+      'The site walks guests through everything they need to plan the trip: activities, a dining menu, a gallery, directions from Manila and a guest FAQ.',
+      'It goes past brochure level. Guests check availability, see weekday and weekend rates, book a room, pay a deposit and print their confirmation. Behind it sits a staff dashboard with bookings, a calendar, a payments ledger, housekeeping, reports and CSV export. The full version runs on Cloudflare Workers with a database. The public demo saves bookings only in your browser, and no real payments are taken.',
+    ],
+    link: 'https://dawebandmedia.github.io/audreacoveresort/',
+  },
+  {
     slug: 'sample-brand-website',
     title: 'Café Website',
     category: 'Web',
