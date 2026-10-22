@@ -32,6 +32,32 @@
 
 export default [
   {
+    slug: 'orbit-solar-system',
+    title: 'ORBIT: Interactive Solar System',
+    category: 'Web',
+    year: '2026',
+    client: 'Personal project',
+    role: 'Concept, design & 3D development',
+    thumbnail: 'assets/projects/orbit-solar-system/cover.jpg',
+    images: [
+      'assets/projects/orbit-solar-system/01.jpg',
+      'assets/projects/orbit-solar-system/02.jpg',
+      'assets/projects/orbit-solar-system/03.jpg',
+      'assets/projects/orbit-solar-system/04.jpg',
+      'assets/projects/orbit-solar-system/05.jpg',
+      'assets/projects/orbit-solar-system/06.jpg',
+      'assets/projects/orbit-solar-system/07.jpg',
+      'assets/projects/orbit-solar-system/08.jpg',
+    ],
+    video: '',
+    description: [
+      'A real-time 3D model of the Solar System that runs right in the browser, no app or download needed. You can fly from the Sun out to Pluto, orbit any planet, follow it along its path, or sit back and take the guided tour.',
+      'It is built on real data. Planet positions come from NASA JPL orbital elements, so the sky you see matches the date on screen. Earth spins on real time, the Moon shows its actual phase, and the planets wear NASA surface maps. Each world has its own info panel with live distances and a side-by-side size comparison with Earth.',
+      'Extras include time controls to speed up, pause or rewind the years, a telescope view of deep-sky objects like the Andromeda Galaxy and the Orion Nebula, and an optional soundtrack. It works on desktop and mobile. Built with Three.js and WebGL.',
+    ],
+    link: 'https://dawebandmedia.github.io/solarsystem/',
+  },
+  {
     slug: 'audrea-cove-resort',
     title: 'Audrea Cove Resort',
     category: 'Web',
