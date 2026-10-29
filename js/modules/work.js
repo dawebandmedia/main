@@ -1,9 +1,12 @@
 /* ==========================================================================
-   Work: builds the gallery from data/projects.js, the filters, the pinned
-   horizontal "reel" (desktop) and the WebGL thumbnails.
+   Work: builds the portfolio grid from data/projects.js.
+   - A featured first card, then an even grid, so every project is visible at once
+   - Filters with counts (animated with Flip)
+   - Live project counter in the header
+   - Hover preview: each card flips through that project's own screenshots
+   - "Live site" shortcut on every card that has a link
    ========================================================================== */
-import { esc, clamp, timecode, whenVisible, debounce } from '../core/utils.js';
-import { scrollTo } from '../core/scroll.js';
+import { esc } from '../core/utils.js';
 
 /** Keep only usable entries; never crash on a typo in projects.js. */
 export function cleanProjects(list) {
@@ -21,26 +24,45 @@ export function cleanProjects(list) {
   });
 }
 
+const firstSentence = (d) => {
+  const t = Array.isArray(d) ? d[0] : d;
+  if (!t) return '';
+  const m = String(t).match(/^.*?[.!?](\s|$)/);
+  return (m ? m[0] : String(t)).trim();
+};
+const host = (url) => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
+const pad = (n) => String(n).padStart(2, '0');
+
 export function initWork({ env, site, projects, onOpen }) {
   const { gsap, ScrollTrigger, Flip } = window;
   const section = document.querySelector('#work');
-  const pin = section.querySelector('[data-work-pin]');
-  const viewport = section.querySelector('[data-work-viewport]');
-  const track = section.querySelector('[data-work-track]');
-  const ruler = section.querySelector('[data-work-ruler]');
+  const grid = section.querySelector('[data-work-grid]');
   const filtersEl = section.querySelector('[data-filters]');
-  const bar = section.querySelector('[data-work-bar]');
-  const idxEl = section.querySelector('[data-work-index]');
-  const totalEl = section.querySelector('[data-work-total]');
-  const canvas = section.querySelector('[data-work-canvas]');
+  const statsEl = section.querySelector('[data-work-stats]');
+  const showingEl = section.querySelector('[data-work-showing]');
   let active = 'All';
-  let st = null;
-  let gl = null;
+
+  // Real work first; placeholder samples always sink to the end.
+  const list = [...projects.filter((p) => !p.sample), ...projects.filter((p) => p.sample)];
+  const real = list.filter((p) => !p.sample);
+  const counted = real.length ? real : list;
+
+  /* ---------- header stats ---------- */
+  const present = [...new Set(list.map((p) => p.category))];
+  const ordered = [...(site.categories || []).filter((c) => present.includes(c)), ...present.filter((c) => !(site.categories || []).includes(c))];
+  const live = counted.filter((p) => p.link).length;
+  // services offered = the crafts listed in data/site.js (or the ones in use)
+  const crafts = Math.max((site.categories || []).length, new Set(counted.map((p) => p.category)).size);
+  const stats = [
+    { n: counted.length, label: counted.length === 1 ? 'Project' : 'Projects' },
+    { n: live, label: live === 1 ? 'Live site' : 'Live sites' },
+    { n: crafts, label: crafts === 1 ? 'Service' : 'Services' },
+  ].filter((s) => s.n > 0);
+  statsEl.innerHTML = stats.map((s) => `
+    <div class="work__stat"><dt>${esc(s.label)}</dt><dd data-count="${s.n}">${pad(s.n)}</dd></div>`).join('');
 
   /* ---------- filters ---------- */
-  const present = [...new Set(projects.map((p) => p.category))];
-  const ordered = [...(site.categories || []).filter((c) => present.includes(c)), ...present.filter((c) => !(site.categories || []).includes(c))];
-  const count = (c) => projects.filter((p) => c === 'All' || p.category === c).length;
+  const count = (c) => list.filter((p) => c === 'All' || p.category === c).length;
   filtersEl.innerHTML = ['All', ...ordered].map((c) => `
     <button class="filter${c === 'All' ? ' is-active' : ''}" type="button" data-filter="${esc(c)}" aria-pressed="${c === 'All'}" data-cursor="link">
       ${esc(c)}<sup>${count(c)}</sup>
@@ -48,46 +70,56 @@ export function initWork({ env, site, projects, onOpen }) {
   if (ordered.length < 2) filtersEl.hidden = true;
 
   /* ---------- cards ---------- */
-  track.innerHTML = projects.map((p, i) => `
-    <li class="card" data-category="${esc(p.category)}" data-slug="${esc(p.slug)}">
-      <a class="card__link" href="#/work/${esc(p.slug)}" data-cursor="view" data-cursor-label="View"
+  const card = (p, i) => {
+    const frames = [p.thumbnail, ...p.images].slice(0, 6);
+    const isVideo = !!p.video;
+    return `
+    <li class="wcard${i === 0 ? ' wcard--feature' : ''}${p.sample ? ' wcard--sample' : ''}" data-category="${esc(p.category)}" data-slug="${esc(p.slug)}">
+      <a class="wcard__link" href="#/work/${esc(p.slug)}" data-cursor="view" data-cursor-label="View"
          aria-label="${esc(p.title)}, ${esc(p.category)}${p.year ? `, ${esc(p.year)}` : ''}">
-        <div class="card__media">
-          <img src="${esc(p.thumbnail)}" alt="${esc(p.title)}" width="1400" height="875" decoding="async" ${i > 2 ? 'loading="lazy"' : ''}>
-          ${p.sample ? '<span class="card__badge">Sample</span>' : ''}
+        <div class="wcard__media" data-frames='${esc(JSON.stringify(frames))}'>
+          <img class="wcard__img is-on" src="${esc(p.thumbnail)}" alt="" width="1600" height="1000" decoding="async" ${i > 3 ? 'loading="lazy"' : ''}>
+          <span class="wcard__num" aria-hidden="true">${pad(i + 1)}</span>
+          ${p.sample ? '<span class="wcard__badge">Sample</span>' : ''}
+          ${isVideo ? '<span class="wcard__play" aria-hidden="true"></span>' : ''}
+          ${frames.length > 1 ? `<span class="wcard__dots" aria-hidden="true">${frames.map((_, k) => `<i${k === 0 ? ' class="is-on"' : ''}></i>`).join('')}</span>` : ''}
         </div>
-        <div class="card__meta">
-          <h3 class="card__title">${esc(p.title)}</h3>
-          <span class="card__info">${esc(p.category)}${p.year ? ` <span aria-hidden="true">/</span> ${esc(p.year)}` : ''}</span>
+        <div class="wcard__meta">
+          <h3 class="wcard__title">${esc(p.title)}</h3>
+          <span class="wcard__info">${esc(p.category)}${p.year ? ` <span aria-hidden="true">·</span> ${esc(p.year)}` : ''}</span>
         </div>
+        ${i === 0 && firstSentence(p.description) ? `<p class="wcard__blurb">${esc(firstSentence(p.description))}</p>` : ''}
       </a>
-    </li>`).join('') + `
-    <li class="card card--cta" data-category="*">
-      <div class="card__media">
-        <p class="card__cta-title">Your project could be next.</p>
+      ${p.link ? `<a class="wcard__live" href="${esc(p.link)}" target="_blank" rel="noopener" data-cursor="link" aria-label="Open ${esc(p.title)} live${host(p.link) ? ` on ${esc(host(p.link))}` : ''} (new tab)"><i aria-hidden="true"></i>${isVideo ? 'Watch' : 'Live site'}<span aria-hidden="true">↗</span></a>` : ''}
+    </li>`;
+  };
+  grid.innerHTML = list.map(card).join('') + `
+    <li class="wcard wcard--cta" data-category="*">
+      <div class="wcard__media">
+        <p class="wcard__cta-title">Your project could be next.</p>
         <a class="btn btn--solid" href="#contact" style="--btn-fill: var(--night)" data-magnetic data-cursor="link"><span data-magnetic-inner>Start your project</span></a>
       </div>
     </li>`;
-  if (!projects.length) {
-    track.insertAdjacentHTML('beforebegin', '<p class="work__empty">No projects yet. Add your first one in data/projects.js.</p>');
-  }
+  if (!list.length) grid.insertAdjacentHTML('beforebegin', '<p class="work__empty">No projects yet. Add your first one in data/projects.js.</p>');
 
-  const cards = () => [...track.querySelectorAll('.card:not(.card--cta)')];
-  const visibleCards = () => cards().filter((c) => c.style.display !== 'none');
-  const setTotals = () => {
-    totalEl.textContent = String(visibleCards().length).padStart(2, '0');
+  const cards = () => [...grid.querySelectorAll('.wcard:not(.wcard--cta)')];
+  const visible = () => cards().filter((c) => !c.hidden);
+  const setShowing = () => {
+    const n = visible().length;
+    showingEl.textContent = active === 'All' ? `Showing all ${n}` : `${n} ${active.toLowerCase()} project${n === 1 ? '' : 's'}`;
   };
-  setTotals();
+  setShowing();
 
-  track.addEventListener('click', (e) => {
-    const link = e.target.closest('.card__link');
+  grid.addEventListener('click', (e) => {
+    const link = e.target.closest('.wcard__link');
     if (!link) return;
     e.preventDefault();
-    const r = link.querySelector('.card__media').getBoundingClientRect();
+    const r = link.querySelector('.wcard__media').getBoundingClientRect();
     const origin = e.clientX ? { x: e.clientX, y: e.clientY } : { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-    onOpen(link.closest('.card').dataset.slug, origin);
+    onOpen(link.closest('.wcard').dataset.slug, origin);
   });
 
+  /* ---------- filtering ---------- */
   filtersEl.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-filter]');
     if (!btn || btn.dataset.filter === active) return;
@@ -97,104 +129,74 @@ export function initWork({ env, site, projects, onOpen }) {
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', String(on));
     });
-    applyFilter();
-  });
-
-  function applyFilter() {
-    const all = [...track.querySelectorAll('.card')];
+    const all = [...grid.querySelectorAll('.wcard')];
     const state = env.reducedMotion ? null : Flip.getState(all);
-    cards().forEach((c) => { c.style.display = active === 'All' || c.dataset.category === active ? '' : 'none'; });
-    setTotals();
-    const done = () => {
-      ScrollTrigger.refresh();
-      if (st && window.scrollY > st.start + 2) scrollTo(st.start, { duration: 1.2 });
-    };
-    if (!state) return done();
+    cards().forEach((c) => { c.hidden = !(active === 'All' || c.dataset.category === active); });
+    // the first visible card is always the big one
+    cards().forEach((c) => c.classList.remove('wcard--feature'));
+    visible()[0]?.classList.add('wcard--feature');
+    setShowing();
+    if (!state) return ScrollTrigger.refresh();
     Flip.from(state, {
-      duration: 0.9,
+      duration: 0.8,
       ease: 'expo.inOut',
       absolute: true,
       scale: true,
-      onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'expo.out', delay: 0.15 }),
-      onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.8, duration: 0.5, ease: 'power2.in' }),
-      onComplete: done,
+      onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.7, ease: 'expo.out', delay: 0.12 }),
+      onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.9, duration: 0.4, ease: 'power2.in' }),
+      onComplete: () => ScrollTrigger.refresh(),
     });
-  }
-
-  /* ---------- ruler with timecodes (the gallery reads like an edit timeline) ---------- */
-  function buildRuler() {
-    const width = track.scrollWidth;
-    ruler.style.width = `${width}px`;
-    const step = 200; // px per label
-    let html = '';
-    for (let x = 0, i = 0; x < width; x += step, i++) html += `<span style="left:${x}px">${timecode(i * 2, false)}</span>`;
-    ruler.innerHTML = html;
-  }
-
-  /* ---------- desktop: pinned horizontal scroll ---------- */
-  const mm = gsap.matchMedia();
-  mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-    const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
-    buildRuler();
-    const tween = gsap.to(track, {
-      x: () => -distance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pin,
-        pin: true,
-        start: 'top top',
-        end: () => `+=${distance()}`,
-        scrub: true,
-        invalidateOnRefresh: true,
-        onRefresh: buildRuler,
-        onUpdate(self) {
-          const x = gsap.getProperty(track, 'x');
-          ruler.style.transform = `translateX(${x}px)`;
-          bar.style.transform = `scaleX(${self.progress})`;
-          gl?.setVelocity(clamp(self.getVelocity() / 3500, -1, 1));
-          // which project sits closest to the middle of the screen
-          const mid = window.innerWidth / 2;
-          let best = 0; let bestD = Infinity;
-          visibleCards().forEach((c, i) => {
-            const r = c.getBoundingClientRect();
-            const d = Math.abs(r.left + r.width / 2 - mid);
-            if (d < bestD) { bestD = d; best = i; }
-          });
-          idxEl.textContent = String(best + 1).padStart(2, '0');
-        },
-      },
-    });
-    st = tween.scrollTrigger;
-    return () => { st = null; gsap.set(track, { x: 0 }); ruler.style.transform = ''; };
   });
 
-  // card entrance for the mobile / reduced-motion grid
-  if (!env.reducedMotion) {
-    gsap.matchMedia().add('(max-width: 899px)', () => {
-      cards().forEach((c) => gsap.from(c, { y: 60, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 92%', once: true } }));
+  /* ---------- hover preview: flip through the project's screenshots ---------- */
+  if (!env.touch && !env.reducedMotion) {
+    grid.querySelectorAll('.wcard__media[data-frames]').forEach((media) => {
+      let frames;
+      try { frames = JSON.parse(media.dataset.frames); } catch { return; }
+      if (frames.length < 2) return;
+      const dots = [...media.querySelectorAll('.wcard__dots i')];
+      let imgs = null; let k = 0; let timer = null;
+      const build = () => {
+        const first = media.querySelector('.wcard__img');
+        const anchor = media.querySelector('.wcard__num');
+        imgs = [first, ...frames.slice(1).map((src) => {
+          const im = new Image();
+          im.className = 'wcard__img'; im.alt = ''; im.decoding = 'async'; im.src = src;
+          media.insertBefore(im, anchor);
+          return im;
+        })];
+      };
+      const show = (n) => {
+        imgs.forEach((im, j) => im.classList.toggle('is-on', j === n));
+        dots.forEach((d, j) => d.classList.toggle('is-on', j === n));
+      };
+      const link = media.closest('.wcard');
+      link.addEventListener('pointerenter', () => {
+        if (!imgs) build();
+        clearInterval(timer);
+        timer = setInterval(() => { k = (k + 1) % imgs.length; show(k); }, 1100);
+      });
+      link.addEventListener('pointerleave', () => { clearInterval(timer); k = 0; if (imgs) show(0); });
     });
   }
 
-  /* ---------- WebGL thumbnails (desktop only, loaded when the section is near) ---------- */
-  const wantsGL = env.webgl && !env.reducedMotion && !env.touch;
-  if (wantsGL && projects.length) {
-    let started = false;
-    const stopWatching = whenVisible(section, async (visible) => {
-      if (!visible || started || env.small) return;
-      started = true;
-      stopWatching();
-      try {
-        const { GalleryGL } = await import('../gl/gallery-gl.js');
-        gl = new GalleryGL(canvas, viewport, env).init();
-        await gl.setCards(cards());
-        document.documentElement.classList.add('has-gallery-gl');
-        whenVisible(section, (v) => (v && !env.small ? gl.start() : gl.stop()));
-        window.addEventListener('resize', debounce(() => gl.resize(), 150));
-      } catch (err) {
-        console.warn('[work] WebGL gallery unavailable, using plain images.', err);
-      }
-    }, '60% 0px');
+  /* ---------- entrances ---------- */
+  if (!env.reducedMotion) {
+    // count-up numbers
+    statsEl.querySelectorAll('[data-count]').forEach((dd) => {
+      const n = Number(dd.dataset.count); const o = { v: 0 };
+      gsap.to(o, { v: n, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: statsEl, start: 'top 88%', once: true },
+        onUpdate: () => { dd.textContent = pad(Math.round(o.v)); } });
+    });
+    // cards rise in, row by row
+    const all = [...grid.querySelectorAll('.wcard')];
+    gsap.set(all, { y: 60, opacity: 0 });
+    ScrollTrigger.batch(all, {
+      start: 'top 92%',
+      once: true,
+      onEnter: (batch) => gsap.to(batch, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+    });
   }
 
-  return { get count() { return projects.length; } };
+  return { get count() { return list.length; } };
 }
