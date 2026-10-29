@@ -59,6 +59,7 @@ export function initProjectView({ env, projects, wipe }) {
       <header class="pv__head">
         ${p.sample ? '<p class="pv__sample">Sample project: replace it in <code>data/projects.js</code></p>' : ''}
         <h2 class="pv__title" id="pv-title">${esc(p.title)}</h2>
+        ${p.demo ? '<aside class="pv__disclaimer" aria-label="Portfolio demo disclaimer"><strong>Independent portfolio demo</strong><p>This website is an independent demo created by DA Web &amp; Media to showcase our design and development skills. It is not the business’s official website and is not affiliated with or endorsed by the business.</p></aside>' : ''}
         <dl class="pv__meta">
           ${meta}
           ${p.link ? `<div class="pv__actions"><a class="btn btn--solid" href="${esc(p.link)}" target="_blank" rel="noopener" data-magnetic data-cursor="link"><span data-magnetic-inner>Visit live project</span></a></div>` : ''}

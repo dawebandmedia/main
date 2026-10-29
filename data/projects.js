@@ -27,12 +27,14 @@
                 or a link from YouTube, Vimeo or Facebook. '' for none
    description  one paragraph in quotes, or several:  ['First…', 'Second…']
    link         optional live website/video link — shows a "Visit" button
+   demo         true for independent website demos; shows the portfolio disclaimer
    sample       only on the placeholder projects; delete it on real ones
    ========================================================================== */
 
 export default [
   {
     slug: 'lugod-catering',
+    demo: true,
     title: 'LUGOD Catering & Events',
     category: 'Web',
     year: '2026',
@@ -60,6 +62,7 @@ export default [
   },
   {
     slug: 'rvb-wheels-works',
+    demo: true,
     title: 'RVB Wheels & Works',
     category: 'Web',
     year: '2026',
@@ -86,6 +89,7 @@ export default [
   },
   {
     slug: 'zion-events',
+    demo: true,
     title: 'ZION Catering & Events',
     category: 'Web',
     year: '2026',
@@ -112,6 +116,7 @@ export default [
   },
   {
     slug: 'eyans-catering',
+    demo: true,
     title: 'Eyans Catering Services',
     category: 'Web',
     year: '2026',
@@ -137,6 +142,7 @@ export default [
   },
   {
     slug: 'hayrunisa-budak-homes',
+    demo: true,
     title: 'Hayrunisa Budak: Batangas Homes & Land',
     category: 'Web',
     year: '2026',
@@ -162,6 +168,7 @@ export default [
   },
   {
     slug: 'orbit-solar-system',
+    demo: true,
     title: 'ORBIT: Interactive Solar System',
     category: 'Web',
     year: '2026',
@@ -188,6 +195,7 @@ export default [
   },
   {
     slug: 'audrea-cove-resort',
+    demo: true,
     title: 'Audrea Cove Resort',
     category: 'Web',
     year: '2026',

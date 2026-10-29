@@ -993,6 +993,20 @@ html.has-cursor .cursor.is-view { mix-blend-mode: normal; }
 }
 .pv__sample code { font-family: var(--f-mono); font-size: 0.9em; }
 .pv__title { font-family: var(--f-display); font-size: clamp(2.8rem, 10vw, 10rem); font-weight: 500; line-height: 0.9; letter-spacing: -0.05em; max-width: 12ch; }
+.pv__disclaimer {
+  margin-top: 28px;
+  padding: clamp(16px, 2.5vw, 24px);
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--ice);
+  border-radius: 12px;
+  background: var(--ink);
+  max-width: 80ch;
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--cream);
+}
+.pv__disclaimer strong { display: block; margin-bottom: 6px; color: var(--ice); }
+.pv__disclaimer p { margin: 0; }
 .pv__meta {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px;
   margin: clamp(36px, 6vh, 64px) 0;
